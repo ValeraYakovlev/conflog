@@ -1,13 +1,14 @@
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
+from io import BytesIO
+
+import qrcode
+from PIL import Image
 from reportlab.lib.colors import black
+from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import cm
-from PIL import Image
-import qrcode
-from io import BytesIO
 from reportlab.lib.utils import ImageReader
-from reportlab.platypus import Paragraph, Frame
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Frame, Paragraph
 
 
 def generate_qr(text):
@@ -16,6 +17,7 @@ def generate_qr(text):
     Здесь должен быть вызов моего модуля
     """
     return qrcode.make(text)
+
 
 def create_pdf(filename, data):
     """
@@ -28,7 +30,7 @@ def create_pdf(filename, data):
     badge_width = 3 * cm
     badge_height = 5 * cm
     padding = 0.5 * cm
-    
+
     x, y = padding, A4[1] - badge_height - padding
 
     for i, item in enumerate(data):
@@ -66,6 +68,7 @@ def create_pdf(filename, data):
                 y = A4[1] - badge_height - padding
 
     c.save()
+
 
 data = [
     {"label": "Посетитель с длинными именем и информацией", "text": "https://example.com/1"},
